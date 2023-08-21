@@ -1,0 +1,179 @@
+[tool.poetry]
+name = "my-project-3"
+version = "0.0.1"
+description = "bla bla description!"
+authors = [
+    "Ruslan Iskov <ruslan.rv.ua@gmail.com>",
+]
+license = "MIT"
+readme = "README.md"
+
+documentation = "https://ruslan-rv-ua.github.io/my-project-3"
+homepage = "https://ruslan-rv-ua.github.io/my-project-3"
+repository = "https://github.com/ruslan-rv-ua/my-project-3"
+
+# packages = [
+#     { include = "my_project_3", from = "src" }
+# ]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1, <4.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "*"
+black = "*"
+python-kacl = "*"
+pyupgrade = "*"
+tryceratops = "*"
+
+[tool.poetry.group.lint.dependencies]
+mypy = "*"
+ruff = "*"
+
+[tool.poetry.group.docs.dependencies]
+mkdocstrings = {version = ">=0.18", extras = ["python"]}
+mkdocs-material = "*"
+pymdown-extensions = "*"
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+pytest-github-actions-annotate-failures = "*"
+pytest-cov = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+##################################################
+
+[tool.poetry_bumpversion.file."my_project_3/__init__.py"]
+
+##################################################
+
+[tool.black]
+# https://github.com/psf/black
+line-length = 88
+target-version = ["py311"]
+color = true
+
+include = '\.pyi?$'
+exclude = '''
+/(
+        \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.nox
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+'''
+
+##################################################
+
+[tool.pytest.ini_options]
+# https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
+# Directories that are not visited by pytest collector:
+norecursedirs =["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
+doctest_optionflags = ["NUMBER", "NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
+
+# Extra options:
+# addopts = [
+#   "--strict-markers",
+#   "--tb=short",
+#   "--doctest-modules",
+#   "--doctest-continue-on-failure",
+# ]
+
+addopts = """\
+    --cov my_project_3 \
+    --cov tests \
+    --cov-report term-missing \
+    --no-cov-on-fail \
+"""
+
+[tool.coverage.run]
+source = ["tests"]
+
+[tool.coverage.paths]
+source = "My Project 3"
+
+[tool.coverage.run]
+branch = true
+
+
+[tool.coverage.report]
+fail_under = 100
+# show_missing = true
+exclude_lines = [
+    'if TYPE_CHECKING:',
+    'pragma: no cover'
+]
+
+##################################################
+
+[tool.mypy]
+# https://mypy.readthedocs.io/en/latest/config_file.html#using-a-pyproject-toml-file
+python_version = 3.11
+pretty = true
+show_traceback = true
+color_output = true
+
+allow_redefinition = false
+check_untyped_defs = true
+# disallow_any_generics = true
+disallow_any_unimported = true
+# disallow_incomplete_defs = true
+disallow_untyped_defs = true
+# ignore_missing_imports = true
+# implicit_reexport = false
+no_implicit_optional = true
+show_column_numbers = true
+show_error_codes = true
+strict_equality = true
+show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+# mypy_path = "my_project_3"
+exclude = [
+    "build",
+    "dist",
+    "docs",
+    "examples",
+    "scripts",
+    "tests",
+    ".venv",
+]
+
+##################################################
+
+[tool.ruff]
+line-length = 88
+src = "my_project_3"
+target-version = "py39"
+
+ignore-init-module-imports = true
+
+select = ["D"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fix = true
+fixable = ["ALL"]
+unfixable = []
+
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.pydocstyle]
+convention = "google"
